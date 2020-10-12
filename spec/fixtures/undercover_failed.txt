@@ -1,0 +1,17 @@
+undercover: 👮‍♂️ some methods have no test coverage! Please add specs for methods listed below
+🚨 1) node `index3` type: instance method,
+      loc: app/controllers/v2/provinces_controller.rb:9:11, coverage: 0.0%
+ 9:     def index3 hits: n/a
+10:       render json: V2::ProvinceSerializer.new(provinces) hits: 0
+11:     end hits: n/a
+🚨 2) node `index2` type: instance method,
+      loc: app/controllers/v2/sub_districts_controller.rb:9:11, coverage: 0.0%
+ 9:     def index2 hits: n/a
+10:       render json: V2::SubDistrictSerializer.new(sub_districts) hits: 0
+11:     end hits: n/a
+🚨 3) node `index3` type: instance method,
+      loc: app/controllers/v2/sub_districts_controller.rb:13:15, coverage: 0.0%
+13:     def index3 hits: n/a
+14:       render json: V2::SubDistrictSerializer.new(sub_districts) hits: 0
+15:     end hits: n/a
+Undercover finished in 0.9006s

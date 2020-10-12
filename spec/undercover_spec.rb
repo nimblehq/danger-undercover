@@ -1,46 +1,40 @@
-require File.expand_path("../spec_helper", __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('spec_helper', __dir__)
 
 module Danger
   describe Danger::DangerUndercover do
-    it "should be a plugin" do
+    it 'should be a plugin' do
       expect(Danger::DangerUndercover.new(nil)).to be_a Danger::Plugin
     end
 
-    #
-    # You should test your custom attributes and methods here
-    #
-    describe "with Dangerfile" do
+    describe 'Dangerfile' do
       before do
         @dangerfile = testing_dangerfile
-        @my_plugin = @dangerfile.undercover
-
-        # mock the PR data
-        # you can then use this, eg. github.pr_author, later in the spec
-        json = File.read(File.dirname(__FILE__) + '/support/fixtures/github_pr.json') # example json: `curl https://api.github.com/repos/danger/danger-plugin-template/pulls/18 > github_pr.json`
-        allow(@my_plugin.github).to receive(:pr_json).and_return(json)
+        @undercover = @dangerfile.undercover
       end
 
-      # Some examples for writing tests
-      # You should replace these with your own.
+      it 'fails if file not found' do
+        @undercover.report('spec/fixtures/missing_file.txt')
 
-      it "Warns on a monday" do
-        monday_date = Date.parse("2016-07-11")
-        allow(Date).to receive(:today).and_return monday_date
-
-        @my_plugin.warn_on_mondays
-
-        expect(@dangerfile.status_report[:warnings]).to eq(["Trying to merge code on a Monday"])
+        expect(@dangerfile.status_report[:errors]).to eq(['undercover: Data not found'])
       end
 
-      it "Does nothing on a tuesday" do
-        monday_date = Date.parse("2016-07-12")
-        allow(Date).to receive(:today).and_return monday_date
+      it 'shows success message if nothing to report' do
+        report_path = 'spec/fixtures/undercover_passed.txt'
+        @undercover.report(report_path)
+        report = File.open(report_path).read
 
-        @my_plugin.warn_on_mondays
-
-        expect(@dangerfile.status_report[:warnings]).to eq([])
+        expect(@dangerfile.status_report[:messages]).to eq([report])
       end
 
+      it 'shows warning if undercover has report' do
+        report_path = 'spec/fixtures/undercover_failed.txt'
+        @undercover.report(report_path)
+        report = File.open(report_path).read
+
+        expect(@dangerfile.status_report[:warnings]).to eq([report])
+      end
     end
   end
 end
