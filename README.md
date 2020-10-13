@@ -9,6 +9,12 @@ A [Danger](https://github.com/danger/danger) plugin to show [Undercover](https:/
 ## Usage
 
 To use this gem all the instruction provided in [Undercover](https://github.com/grodowski/undercover) must be followed.
+
+To know more about running undercover [visit here](https://github.com/grodowski/undercover#usage)
+
+> Use the `-c --compare ref` flag to specify a git ref (commit hash, branch name, tag) to compare against. 
+**This is a recommended usage for CI/CD build environments**, as `undercover` will `exit 1` if there are any warnings.
+
 Run the below command to output undercover report to a `txt` file which this plugin will use to geneate PR comments.
 To use it on a CI server, run this command before running `Danger` so that the file is created beforehand.
 
