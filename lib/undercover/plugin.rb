@@ -15,39 +15,33 @@ module Danger
   # @tags ruby, code-coverage, simplecov, undercover, danger, simplecov-lcov
   #
   class DangerUndercover < Plugin
-    # Checks the file validity and warns if no file found
-    # if valid file is found then if there's no changes,
-    # shows the report as message in Danger.
-    # If there's reports then it shows the report as warning in danger.
+    VALID_FILE_FORMAT = '.txt'
+
+    # Checks the file validity and warns if no file is found
+    # if a valid file is found then if there are no changes,
+    # shows the report as a message in Danger.
+    # If there are reports then it shows the report as a warning in danger.
     # @return  [void]
     #
     def report(undercover_path, sticky: true)
-      if valid_file? undercover_path
-        report = File.open(undercover_path).read
-        if report.match(/No coverage is missing in latest changes/)
-          message(report, sticky: sticky)
-        else
-          warn(report, sticky: sticky)
-        end
+      return fail('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
+
+      report = File.open(undercover_path).read
+
+      if report.match(/No coverage is missing in latest changes/)
+        message(report, sticky: sticky)
       else
-        fail('undercover: Data not found')
+        warn(report, sticky: sticky)
       end
     end
 
     private
 
-    # Return accepted file format
-    # @return [String] Accepted format
-    #
-    def accepted_file_format
-      '.txt'
-    end
-
     # Checks if the file exists and the file is valid
     # @return [Boolean] File validity
     #
     def valid_file?(undercover_path)
-      File.exist?(undercover_path) && (File.extname(undercover_path) == accepted_file_format)
+      File.exist?(undercover_path) && (File.extname(undercover_path) == VALID_FILE_FORMAT)
     end
   end
 end

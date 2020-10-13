@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-undercover (0.0.1)
+    danger-undercover (1.0.0)
       danger-plugin-api (~> 1.0)
 
 GEM

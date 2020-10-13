@@ -4,7 +4,7 @@ require File.expand_path('spec_helper', __dir__)
 
 module Danger
   describe Danger::DangerUndercover do
-    it 'should be a plugin' do
+    it 'is a Danger plugin' do
       expect(Danger::DangerUndercover.new(nil)).to be_a Danger::Plugin
     end
 
@@ -14,10 +14,10 @@ module Danger
         @undercover = @dangerfile.undercover
       end
 
-      it 'fails if file not found' do
+      it 'fails if file is not found' do
         @undercover.report('spec/fixtures/missing_file.txt')
 
-        expect(@dangerfile.status_report[:errors]).to eq(['undercover: Data not found'])
+        expect(@dangerfile.status_report[:errors]).to eq(['Undercover: coverage report cannot be found.'])
       end
 
       it 'shows success message if nothing to report' do
@@ -28,7 +28,7 @@ module Danger
         expect(@dangerfile.status_report[:messages]).to eq([report])
       end
 
-      it 'shows warning if undercover has report' do
+      it 'shows warnings if undercover has a report' do
         report_path = 'spec/fixtures/undercover_failed.txt'
         @undercover.report(report_path)
         report = File.open(report_path).read

@@ -1,0 +1,6 @@
+AllCops:
+  NewCops: enable
+
+# raise and fail are both okay
+Style/SignalException:
+  Enabled: false

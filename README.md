@@ -10,7 +10,7 @@ A [Danger](https://github.com/danger/danger) plugin to show [Undercover](https:/
 
 To use this gem all the instruction provided in [Undercover](https://github.com/grodowski/undercover) must be followed.
 Run the below command to output undercover report to a `txt` file which this plugin will use to geneate PR comments.
-To use it in a CI run this command before running the `Danger` so that the file is created beforehand.
+To use it on a CI server, run this command before running `Danger` so that the file is created beforehand.
 
     $ undercover -c origin/master > coverage/undercover.txt 
 

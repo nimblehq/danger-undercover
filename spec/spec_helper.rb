@@ -2,8 +2,8 @@
 
 require 'pathname'
 ROOT = Pathname.new(File.expand_path('..', __dir__))
-$LOAD_PATH.unshift((ROOT + 'lib').to_s)
-$LOAD_PATH.unshift((ROOT + 'spec').to_s)
+$LOAD_PATH.unshift("#{ROOT}lib")
+$LOAD_PATH.unshift("#{ROOT}spec")
 
 require 'bundler/setup'
 require 'pry'
@@ -48,14 +48,13 @@ def testing_ui
 end
 # rubocop:enable Lint/NestedMethodDefinition
 
-# Example environment (ENV) that would come from
-# running a PR on TravisCI
+# Example environment (ENV) that would come from running a PR
 def testing_env
   {
     'HAS_JOSH_K_SEAL_OF_APPROVAL' => 'true',
-    'TRAVIS_PULL_REQUEST' => '800',
-    'TRAVIS_REPO_SLUG' => 'artsy/eigen',
-    'TRAVIS_COMMIT_RANGE' => '759adcbd0d8f...13c4dc8bb61d',
+    'PULL_REQUEST' => '800',
+    'REPO_SLUG' => 'artsy/eigen',
+    'COMMIT_RANGE' => '759adcbd0d8f...13c4dc8bb61d',
     'DANGER_GITHUB_API_TOKEN' => '123sbdq54erfsd3422gdfio'
   }
 end

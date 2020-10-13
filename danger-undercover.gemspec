@@ -7,8 +7,8 @@ require 'undercover/gem_version.rb'
 Gem::Specification.new do |spec|
   spec.name          = 'danger-undercover'
   spec.version       = Undercover::VERSION
-  spec.authors       = ['rafayet-monon']
-  spec.email         = ['rafayet.monon@gmail.com']
+  spec.authors       = %w[Nimble rafayet-monon]
+  spec.email         = %w[dev@nimblehq.co rafayet@nimblehq.co]
   spec.description   = 'Show undercover report to PRs'
   spec.summary       = 'A Danger plugin for Undercover gem'
   spec.homepage      = 'https://github.com/nimblehq/danger-undercover'
