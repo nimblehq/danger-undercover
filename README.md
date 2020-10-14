@@ -18,7 +18,11 @@ To know more about running undercover [visit here](https://github.com/grodowski/
 Run the below command to output undercover report to a `txt` file which this plugin will use to geneate PR comments.
 To use it on a CI server, run this command before running `Danger` so that the file is created beforehand.
 
-    $ undercover -c origin/master > coverage/undercover.txt 
+    $ undercover -c $compare_git_ref > coverage/undercover.txt
+
+>Here $compare_git_ref as per undercover documentation, can be a commit hash, branch name, or tag. i.e. origin/master
+, origin/development
+
 
 Then in your `Dangerfile` add the following line with the output file 
 
