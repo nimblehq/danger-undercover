@@ -23,15 +23,15 @@ module Danger
     # If there are reports then it shows the report as a warning in danger.
     # @return  [void]
     #
-    def report(undercover_path, sticky: true)
+    def report(undercover_path = 'coverage/undercover.txt', sticky: true)
       return fail('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
 
-      report = File.open(undercover_path).read
+      report = File.open(undercover_path).read.force_encoding('UTF-8')
 
-      if report.match(/No coverage is missing in latest changes/)
-        message(report, sticky: sticky)
-      else
+      if report.match(/some methods have no test coverage/)
         warn(report, sticky: sticky)
+      else
+        message(report, sticky: sticky)
       end
     end
 
