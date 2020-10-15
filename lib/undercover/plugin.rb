@@ -1,33 +1,47 @@
+# frozen_string_literal: true
+
 module Danger
-  # This is your plugin class. Any attributes or methods you expose here will
-  # be available from within your Dangerfile.
+  # Report missing coverage report using undercover and danger-undercover
   #
-  # To be published on the Danger plugins site, you will need to have
-  # the public interface documented. Danger uses [YARD](http://yardoc.org/)
-  # for generating documentation from your plugin source, and you can verify
-  # by running `danger plugins lint` or `bundle exec rake spec`.
+  # You have to use [undercover](https://github.com/grodowski/undercover) to gather
+  # undercover report and send the report to this plugin so that danger-undercover
+  # can use it.
   #
-  # You should replace these comments with a public description of your library.
+  # @example Report missing coverage report
   #
-  # @example Ensure people are well warned about merging on Mondays
+  #          undercover.report('coverage/undercover.txt')
   #
-  #          my_plugin.warn_on_mondays
-  #
-  # @see  rafayet-monon/danger-undercover
-  # @tags monday, weekends, time, rattata
+  # @see  nimblehq/danger-undercover
+  # @tags ruby, code-coverage, simplecov, undercover, danger, simplecov-lcov
   #
   class DangerUndercover < Plugin
+    VALID_FILE_FORMAT = '.txt'
 
-    # An attribute that you can read/write from your Dangerfile
+    # Checks the file validity and warns if no file is found
+    # if a valid file is found then if there are no changes,
+    # shows the report as a message in Danger.
+    # If there are reports then it shows the report as a warning in danger.
+    # @return  [void]
     #
-    # @return   [Array<String>]
-    attr_accessor :my_attribute
+    def report(undercover_path, sticky: true)
+      return fail('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
 
-    # A method that you can call from your Dangerfile
-    # @return   [Array<String>]
+      report = File.open(undercover_path).read
+
+      if report.match(/No coverage is missing in latest changes/)
+        message(report, sticky: sticky)
+      else
+        warn(report, sticky: sticky)
+      end
+    end
+
+    private
+
+    # Checks if the file exists and the file is valid
+    # @return [Boolean] File validity
     #
-    def warn_on_mondays
-      warn 'Trying to merge code on a Monday' if Date.today.wday == 1
+    def valid_file?(undercover_path)
+      File.exist?(undercover_path) && (File.extname(undercover_path) == VALID_FILE_FORMAT)
     end
   end
 end
