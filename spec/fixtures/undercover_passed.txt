@@ -1,0 +1,2 @@
+undercover: ✅ No coverage is missing in latest changes
+Undercover finished in 0.9931s

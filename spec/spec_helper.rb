@@ -1,28 +1,30 @@
-require "pathname"
-ROOT = Pathname.new(File.expand_path("../../", __FILE__))
-$:.unshift((ROOT + "lib").to_s)
-$:.unshift((ROOT + "spec").to_s)
+# frozen_string_literal: true
 
-require "bundler/setup"
-require "pry"
+require 'pathname'
+ROOT = Pathname.new(File.expand_path('..', __dir__))
+$LOAD_PATH.unshift("#{ROOT}lib")
+$LOAD_PATH.unshift("#{ROOT}spec")
 
-require "rspec"
-require "danger"
+require 'bundler/setup'
+require 'pry'
+
+require 'rspec'
+require 'danger'
 
 if `git remote -v` == ''
-  puts "You cannot run tests without setting a local git remote on this repo"
+  puts 'You cannot run tests without setting a local git remote on this repo'
   puts "It's a weird side-effect of Danger's internals."
   exit(0)
 end
 
 # Use coloured output, it's the best.
 RSpec.configure do |config|
-  config.filter_gems_from_backtrace "bundler"
+  config.filter_gems_from_backtrace 'bundler'
   config.color = true
   config.tty = true
 end
 
-require "danger_plugin"
+require 'danger_plugin'
 
 # These functions are a subset of https://github.com/danger/danger/blob/master/spec/spec_helper.rb
 # If you are expanding these files, see if it's already been done ^.
@@ -40,21 +42,20 @@ def testing_ui
 
   cork = Cork::Board.new(out: @output)
   def cork.string
-    out.string.gsub(/\e\[([;\d]+)?m/, "")
+    out.string.gsub(/\e\[([;\d]+)?m/, '')
   end
   cork
 end
 # rubocop:enable Lint/NestedMethodDefinition
 
-# Example environment (ENV) that would come from
-# running a PR on TravisCI
+# Example environment (ENV) that would come from running a PR
 def testing_env
   {
-    "HAS_JOSH_K_SEAL_OF_APPROVAL" => "true",
-    "TRAVIS_PULL_REQUEST" => "800",
-    "TRAVIS_REPO_SLUG" => "artsy/eigen",
-    "TRAVIS_COMMIT_RANGE" => "759adcbd0d8f...13c4dc8bb61d",
-    "DANGER_GITHUB_API_TOKEN" => "123sbdq54erfsd3422gdfio"
+    'HAS_JOSH_K_SEAL_OF_APPROVAL' => 'true',
+    'PULL_REQUEST' => '800',
+    'REPO_SLUG' => 'artsy/eigen',
+    'COMMIT_RANGE' => '759adcbd0d8f...13c4dc8bb61d',
+    'DANGER_GITHUB_API_TOKEN' => '123sbdq54erfsd3422gdfio'
   }
 end
 
