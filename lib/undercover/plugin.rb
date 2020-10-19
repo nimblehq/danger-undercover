@@ -16,6 +16,7 @@ module Danger
   #
   class DangerUndercover < Plugin
     VALID_FILE_FORMAT = '.txt'
+    DEFAULT_PATH = 'coverage/undercover.txt'
 
     # Checks the file validity and warns if no file is found
     # if a valid file is found then if there are no changes,
@@ -23,7 +24,7 @@ module Danger
     # If there are reports then it shows the report as a warning in danger.
     # @return  [void]
     #
-    def report(undercover_path = 'coverage/undercover.txt', sticky: true)
+    def report(undercover_path = DEFAULT_PATH, sticky: true)
       return fail('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
 
       report = File.open(undercover_path).read.force_encoding('UTF-8')
