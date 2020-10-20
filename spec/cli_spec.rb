@@ -41,6 +41,14 @@ module DangerUndercover
 
       expect(report).to eql(mock_message)
     end
+
+    it 'writes undercover report to given file' do
+      output_arguments = %w[-o coverage/report.txt]
+      report_path = File.join(Dir.getwd, 'coverage/report.txt')
+      described_class.run(output_arguments)
+
+      expect(File.exist?(report_path)).to be true
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
