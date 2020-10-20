@@ -7,14 +7,16 @@ require 'undercover/cli'
 module DangerUndercover
   describe DangerUndercover::CLI do
     let!(:mock_message) { 'Test Passed' }
-    let!(:directory) { File.join(Dir.getwd, 'coverage') }
-    let!(:file) { File.join(Dir.getwd, 'coverage/undercover.txt') }
+    let!(:directory) { File.join(Dir.getwd, 'coverage') } # default directory
+    let!(:file) { File.join(Dir.getwd, 'coverage/undercover.txt') } # default file
 
     before(:each) do
+      # mocks the undercover #{args&.join(' ')} CLI command output.
       allow(described_class).to receive(:`).and_return(mock_message)
     end
 
     after(:all) do
+      # removes the folder after tests pass.
       FileUtils.rm_rf(File.join(Dir.getwd, 'coverage'))
     end
 
