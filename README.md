@@ -15,10 +15,16 @@ To know more about running undercover [visit here](https://github.com/grodowski/
 > Use the `-c --compare ref` flag to specify a git ref (commit hash, branch name, tag) to compare against. 
 **This is a recommended usage for CI/CD build environments**, as `undercover` will `exit 1` if there are any warnings.
 
-Run the below command to output undercover report to a `txt` file which this plugin will use to geneate PR comments.
-To use it on a CI server, run this command before running `Danger` so that the file is created beforehand.
+This plugin provides a command `undercover-report` that uses `undercover` command from 
+[Undercover](https://github.com/grodowski/undercover) gem. It takes all the options that `undercover` command takes.
 
-    $ undercover -c $compare_git_ref > coverage/undercover.txt
+They both works in the same way but what `undercover-report` extra does is it prints `undercover` report to a default
+ file in `coverage/undercover.txt`. This makes using `undercover` in CI server much easier.
+
+To use it on a CI server, run the below command before running `Danger` so that the report file is created beforehand
+ which `Danger` will use..
+
+    $ undercover-report -c $compare_git_ref
 
 >Here $compare_git_ref as per undercover documentation, can be a commit hash, branch name, or tag. i.e. origin/master
 , origin/development
@@ -27,7 +33,7 @@ To use it on a CI server, run this command before running `Danger` so that the f
 Then in your `Dangerfile` add the following line with the output file 
 
 ```ruby
-undercover.report 'coverage/undercover.txt'
+undercover.report
 ```
 
 ## Development
