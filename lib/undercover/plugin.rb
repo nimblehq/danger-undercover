@@ -36,7 +36,7 @@ module Danger
           next unless line.strip.start_with?("loc:")
 
           _, filename, from_line, to_line = line.match(/loc:\s([^:]*):(\d+):(\d+)/)
-          warn("🚨 👮‍♂️ Coverage reported 0 hits", file: filename, line: from_line.to_i, sticky: sticky)
+          warn("Coverage reported 0 hits #{line}", file: filename, line: from_line.to_i, sticky: sticky)
         end
 
         fail(report, sticky: sticky)
