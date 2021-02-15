@@ -41,7 +41,10 @@ module Danger
           report_path = 'spec/fixtures/undercover_failed.txt'
           @undercover.report(report_path, in_line: true)
 
-          expect(@dangerfile.status_report[:errors].count).to eq(3)
+          report = File.open(report_path).read
+
+          expect(@dangerfile.status_report[:errors]).to eq([report])
+          expect(@dangerfile.status_report[:warnings].count).to eq(3)
         end
       end
     end

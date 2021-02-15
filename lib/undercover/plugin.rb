@@ -30,16 +30,16 @@ module Danger
       report = File.open(undercover_path).read.force_encoding('UTF-8')
 
       if report.match(/some methods have no test coverage/)
-        warn(report, sticky: sticky)
+        return warn(report, sticky: sticky) unless in_line
 
-        if in_line
-          report.each_line.with_index do |line, i|
-            next unless line.strip.start_with?("loc:")
+        report.each_line.with_index do |line, i|
+          next unless line.strip.start_with?("loc:")
 
-            _, filename, from_line, to_line = line.match(/loc:\s([^:]*):(\d+):(\d+)/)
-            fail("🚨 👮‍♂️ Coverage reported 0 hits", file: filename, line: from_line.to_i, sticky: sticky)
-          end
+          _, filename, from_line, to_line = line.match(/loc:\s([^:]*):(\d+):(\d+)/)
+          warn("🚨 👮‍♂️ Coverage reported 0 hits", file: filename, line: from_line.to_i, sticky: sticky)
         end
+
+        fail(report, sticky: sticky)
       else
         message(report, sticky: sticky)
       end
