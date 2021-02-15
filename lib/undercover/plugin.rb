@@ -24,13 +24,22 @@ module Danger
     # If there are reports then it shows the report as a warning in danger.
     # @return  [void]
     #
-    def report(undercover_path = DEFAULT_PATH, sticky: true)
-      return fail('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
+    def report(undercover_path = DEFAULT_PATH, sticky: true, in_line: false)
+      return warn('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
 
       report = File.open(undercover_path).read.force_encoding('UTF-8')
 
       if report.match(/some methods have no test coverage/)
         warn(report, sticky: sticky)
+
+        if in_line
+          report.each_line.with_index do |line, i|
+            next unless line.strip.start_with?("loc:")
+
+            _, filename, from_line, to_line = line.match(/loc:\s([^:]*):(\d+):(\d+)/)
+            fail("🚨 👮‍♂️ Coverage reported 0 hits", file: filename, line: from_line.to_i, sticky: sticky)
+          end
+        end
       else
         message(report, sticky: sticky)
       end
