@@ -35,7 +35,7 @@ module Danger
         report.each_line.with_index do |line, i|
           next unless line.strip.start_with?("loc:")
 
-          _, filename, from_line, to_line = line.match(/loc:\s([^:]*):(\d+):(\d+)/)
+          _, filename, from_line, to_line = *line.match(/loc:\s([^:]*):(\d+):(\d+)/)
           warn("Coverage reported 0 hits #{line}", file: filename, line: from_line.to_i, sticky: sticky)
         end
 
