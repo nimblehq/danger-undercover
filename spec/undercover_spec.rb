@@ -37,14 +37,23 @@ module Danger
       end
 
       context "when in_line option is true" do
-        it 'shows in-line failures for each reported issue' do
+        it 'shows in-line warnings for each reported issue' do
           report_path = 'spec/fixtures/undercover_failed.txt'
           @undercover.report(report_path, in_line: true)
 
-          report = File.open(report_path).read
-
-          expect(@dangerfile.status_report[:errors]).to eq([report])
+          expect(@dangerfile.status_report[:errors]).to be_empty
           expect(@dangerfile.status_report[:warnings].count).to eq(3)
+        end
+
+        context "when fail_0_coverage option is true" do
+          it 'reports 0 coverage as a failure' do
+            report_path = 'spec/fixtures/undercover_failed.txt'
+            @undercover.report(report_path, in_line: true, fail_0_coverage: true)
+
+            report = File.open(report_path).read
+
+            expect(@dangerfile.status_report[:errors]).to eq([report])
+          end
         end
       end
     end
