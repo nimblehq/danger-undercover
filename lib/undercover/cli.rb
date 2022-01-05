@@ -13,9 +13,7 @@ module DangerUndercover
       def run(args = nil)
         undercover_output = `undercover #{args&.join(' ')}`
 
-        File.open(output_file, 'w') do |f|
-          f.write(undercover_output)
-        end
+        File.write(output_file, undercover_output)
 
         undercover_output
       end

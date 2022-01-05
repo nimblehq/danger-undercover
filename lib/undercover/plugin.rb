@@ -27,7 +27,7 @@ module Danger
     def report(undercover_path = DEFAULT_PATH, sticky: true)
       return fail('Undercover: coverage report cannot be found.') unless valid_file? undercover_path
 
-      report = File.open(undercover_path).read.force_encoding('UTF-8')
+      report = File.read(undercover_path, encoding: 'UTF-8')
 
       if report.match(/some methods have no test coverage/)
         warn(report, sticky: sticky)
