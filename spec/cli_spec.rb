@@ -39,7 +39,7 @@ module DangerUndercover
 
     it 'writes undercover report to default file' do
       described_class.run
-      report = File.open(file).read
+      report = File.read(file)
 
       expect(report).to eql(mock_message)
     end

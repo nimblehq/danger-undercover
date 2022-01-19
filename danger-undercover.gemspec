@@ -2,7 +2,7 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'undercover/gem_version.rb'
+require 'undercover/gem_version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'danger-undercover'
@@ -13,8 +13,9 @@ Gem::Specification.new do |spec|
   spec.summary       = 'A Danger plugin for Undercover gem'
   spec.homepage      = 'https://github.com/nimblehq/danger-undercover'
   spec.license       = 'MIT'
+  spec.metadata      = { 'rubygems_mfa_required' => 'true' }
 
-  spec.required_ruby_version = '~> 2.4'
+  spec.required_ruby_version = '>= 2.7'
   spec.files                 = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   spec.executables           = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files            = spec.files.grep(%r{^(test|spec|features)/})
