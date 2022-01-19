@@ -23,7 +23,7 @@ module Danger
       it 'shows success message if nothing to report' do
         report_path = 'spec/fixtures/undercover_passed.txt'
         @undercover.report(report_path)
-        report = File.open(report_path).read
+        report = File.read(report_path)
 
         expect(@dangerfile.status_report[:messages]).to eq([report])
       end
@@ -31,7 +31,7 @@ module Danger
       it 'shows warnings if undercover has a report' do
         report_path = 'spec/fixtures/undercover_failed.txt'
         @undercover.report(report_path)
-        report = File.open(report_path).read
+        report = File.read(report_path)
 
         expect(@dangerfile.status_report[:warnings]).to eq([report])
       end
